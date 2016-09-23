@@ -54,6 +54,8 @@
 
 
 <script>
+/*
+My first try :P Ill let this here just because I like to see the progress
 
 var mins = 0;
 
@@ -118,6 +120,43 @@ function c(obj) {
             noDangher(); }
 
 }
+*/
+
+let intervals = [];
+
+function StringMins(String)
+{
+  let a = String.split(':');
+  return (+a[0]) * 60  + (+a[1]);
+}
+
+function c(obj) {
+  let min = 1500;
+  let max = 0;
+  if(obj.checked)
+  {
+    intervals.push([StringMins(obj.dataset.start) , StringMins(obj.dataset.end)]);
+  }
+  else 
+  {
+    intervals.splice(intervals.indexOf([StringMins(obj.dataset.start) , StringMins(obj.dataset.end)]), 1);
+  }
+  for(let sub of intervals)
+  {
+    if(sub[1]<min) { min = sub[1]; }
+    if(sub[0]>max) { max = sub[0]; }
+  }
+  if(max <= min)
+  {
+    console.log("yay");
+  }
+  else 
+  {
+    console.log("nay");
+  }
+
+}
+
 </script>
 
 </body>
