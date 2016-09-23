@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+			  src="https://code.jquery.com/jquery-3.1.0.min.js"
+			  integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+			  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<form action="/add" method="POST">
+  <div class="form-group">
+    <label for="nume">Nume</label>
+    <input type="text" class="form-control" id="nume" placeholder="Nume" name="nume">
+  </div>
+
+  <div class="form-group">
+    <label for="prenume">Prenume</label>
+    <input type="text" class="form-control" id="prenume" placeholder="Prenume" name="prenume">
+  </div>
+  <div class="form-group">
+    <label for="nr">Numar de ore pe saptamana</label>
+    <input type="number" class="form-control" id="nr" placeholder="Numar de ore" name="nr">
+  </div>
+
+  <div class="form-group">
+    <label for="select">Clasa</label>
+    <select class="form-control" id="select" name ="clasa">
+      <option>a V-a</option>
+      <option>a VI-a</option>
+      <option>a VII-a</option>
+      <option>a VIII-a</option>
+      <option>a IX-a</option>
+      <option>a X-a</option>
+      <option>a XI-a</option>
+      <option>a XII-a</option>
+    </select>
+  </div>
+
+
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="1" data-start = "9:30" data-end = "12:30" >Option 1</label>
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="2" data-start = "9:00" data-end = "15:30" >Option 2</label>
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="3" data-start = "14:00" data-end = "15:00" >Option 3</label>
+  
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<div class="alert alert-info" id="msg">
+  <strong>Alege-ti activitatile !</strong> P.S. : Trebuie sa fie  
+</div>
+
+
+<script>
+
+var mins = 0;
+
+function dangher(){
+        $("#msg").removeClass().addClass("alert alert-danger");
+        $('#msg').html("Doua sau mai multe intervale de timp se suprapun").show();
+}
+
+function noDangher(){
+  if(mins >= 60 * document.getElementById('nr').value)
+  {
+        $("#msg").removeClass().addClass("alert alert-success");
+        $('#msg').html("Ai destule ore :D").show();
+  }
+  else {
+      $("#msg").removeClass().addClass("alert alert-info");
+      $('#msg').html("Mai ai nevoie de " +  String(document.getElementById('nr').value - (mins/60)) + " ore" ).show();
+  }
+}
+
+
+var act = [];
+
+function stringToMins(String) {
+var a = String.split(':');
+return (+a[0]) * 60  + (+a[1]); 
+}
+
+function arraysEqual(arr1, arr2) {
+    if(arr1.length !== arr2.length)
+        return false;
+    for(var i = arr1.length; i--;) {
+        if(arr1[i] !== arr2[i])
+            return false;
+    }
+
+    return true;
+}
+
+function c(obj) {
+  if(obj.checked){
+    act.push([stringToMins(obj.dataset.start) , stringToMins(obj.dataset.end)]);
+  }
+  else {
+    act.splice(act.indexOf([stringToMins(obj.dataset.start) , stringToMins(obj.dataset.end)]), 1);
+  }
+  for(let sub of act){
+    if (stringToMins(obj.dataset.start) !== sub[0]){
+    if (Math.max( stringToMins(obj.dataset.start) , sub[0] ) > Math.min( stringToMins(obj.dataset.end) , sub[1] ))
+    {
+      console.log(sub[0]);
+      var ok = 1;
+    }
+    else { 
+      console.log("nay");
+      var ok = 0;
+      dangher();
+      return 0;
+      } 
+  }}
+   if (ok) { console.log("yay");
+            noDangher(); }
+
+}
+</script>
+
+</body>
+</html>
