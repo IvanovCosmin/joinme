@@ -9,6 +9,8 @@ var MongoClient = require('mongodb').MongoClient
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var enter = require('./routes/enter');
+var addact = require('./routes/addact');
+var activities = require('./routes/activities');
 
 var app = express();
 
@@ -39,6 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/enter', enter);
+app.use('/addact',addact);
+app.use('/activities',activities);
 
 app.post('/add', (req, res) => {
   db.collection('entries').save(req.body, (err, result) => {
@@ -46,6 +50,15 @@ app.post('/add', (req, res) => {
 
     console.log('saved to database');
     res.redirect('/');
+  })
+})
+
+app.post('/addacti', (req, res) => {
+  db.collection('activities').save(req.body, (err, result) => {
+    if (err) return console.log(err);
+
+    console.log('saved to database');
+    res.redirect('/activities');
   })
 })
 

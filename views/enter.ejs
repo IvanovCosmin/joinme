@@ -23,7 +23,7 @@
   </div>
   <div class="form-group">
     <label for="nr">Numar de ore pe saptamana</label>
-    <input type="number" class="form-control" id="nr" placeholder="Numar de ore" name="nr">
+    <input onclick="c(0);" type="number" class="form-control" id="nr" placeholder="Numar de ore" name="nr">
   </div>
 
   <div class="form-group">
@@ -41,9 +41,10 @@
   </div>
 
 
-  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="1" data-start = "9:30" data-end = "12:30" >Option 1</label>
-  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="2" data-start = "9:00" data-end = "15:30" >Option 2</label>
-  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="3" data-start = "14:00" data-end = "15:00" >Option 3</label>
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="1" data-start = "1:9:30" data-end = "1:12:30" >Option 1</label>
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="2" data-start = "2:9:00" data-end = "2:15:30" >Option 2</label>
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="3" data-start = "2:14:00" data-end = "2:15:00" >Option 3</label>
+  <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="3" data-start = "1:14:00" data-end = "2:14:00" >Option 4</label>
   
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
@@ -81,7 +82,7 @@ var act = [];
 
 function stringToMins(String) {
 var a = String.split(':');
-return (+a[0]) * 60  + (+a[1]); 
+return (+a[0]) * 3600  + (+a[1]) * 60 + (+a[1]); 
 }
 
 function arraysEqual(arr1, arr2) {
@@ -123,38 +124,71 @@ function c(obj) {
 */
 
 let intervals = [];
+let mins = 0;
+function overlap(k)
+{
+      if(k)
+      {
+        $("#msg").removeClass().addClass("alert alert-danger");
+        $('#msg').html("Doua sau mai multe intervale de timp se suprapun").show();
+        return ; 
+      }
+      if(mins >= 60 * document.getElementById('nr').value)
+      {
+        $("#msg").removeClass().addClass("alert alert-success");
+        $('#msg').html("Ai destule ore :D").show();
+        return ;
+      }
+      $("#msg").removeClass().addClass("alert alert-info");
+      $('#msg').html("Mai ai nevoie de " +  String(document.getElementById('nr').value - (mins/60)) + " ore" ).show();
+
+}
 
 function StringMins(String)
 {
   let a = String.split(':');
-  return (+a[0]) * 60  + (+a[1]);
+  return (+a[0]) * 1440  + (+a[1]) * 60 + (+a[2]); 
 }
 
-function c(obj) {
-  let min = 1500;
-  let max = 0;
-  if(obj.checked)
+function checkOverlap(arr1 , arr2)
+{
+  if(Math.max(arr1[0],arr2[0]) < Math.min(arr1[1],arr2[1]) ) 
   {
-    intervals.push([StringMins(obj.dataset.start) , StringMins(obj.dataset.end)]);
+    return 1;
   }
-  else 
-  {
-    intervals.splice(intervals.indexOf([StringMins(obj.dataset.start) , StringMins(obj.dataset.end)]), 1);
-  }
-  for(let sub of intervals)
-  {
-    if(sub[1]<min) { min = sub[1]; }
-    if(sub[0]>max) { max = sub[0]; }
-  }
-  if(max <= min)
-  {
-    console.log("yay");
-  }
-  else 
-  {
-    console.log("nay");
-  }
+  return 0;
+}
 
+function c(obj) 
+{
+  if(obj !== 0)
+  {
+    if(obj.checked)
+    {
+      intervals.push([StringMins(obj.dataset.start) , StringMins(obj.dataset.end)]);
+      mins += StringMins(obj.dataset.end) - StringMins(obj.dataset.start);
+    }
+    else 
+    {
+      intervals.splice(intervals.indexOf([StringMins(obj.dataset.start) , StringMins(obj.dataset.end)]), 1);
+      mins -= StringMins(obj.dataset.end) - StringMins(obj.dataset.start);
+    }
+  }
+    for(let sub1 of intervals)
+    {
+      for(let sub2 of intervals)
+      {
+        if (intervals.indexOf(sub1) !== intervals.indexOf(sub2))
+        {
+          if (checkOverlap(sub1 , sub2))
+          {
+            overlap(1);
+            return ; 
+          }
+        }
+      }
+    }
+  overlap(0);
 }
 
 </script>
