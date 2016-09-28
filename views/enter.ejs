@@ -23,7 +23,7 @@
   </div>
   <div class="form-group">
     <label for="nr">Numar de ore pe saptamana</label>
-    <input onclick="c(0);" type="number" class="form-control" id="nr" placeholder="Numar de ore" name="nr">
+    <input onclick="c(0);" value="30" type="number" class="form-control" id="nr" placeholder="Numar de ore" name="nr">
   </div>
 
   <div class="form-group">
@@ -45,12 +45,58 @@
   <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="2" data-start = "2:9:00" data-end = "2:15:30" >Option 2</label>
   <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="3" data-start = "2:14:00" data-end = "2:15:00" >Option 3</label>
   <label class="checkbox-inline"><input type="checkbox" onclick="c(this);" value="1" name="3" data-start = "1:14:00" data-end = "2:14:00" >Option 4</label>
-  
+
+<% var j=0; %>
+<h2>Luni</h2>
+<% item1.forEach(function(i) { %>
+        <label class="checlbocx-inline" > <input type="checkbox" onclick="c(this);" value="1" data-start = "<%= i.ziua %>:<%= i.start %>" data-end="<%= i.ziua %>:<%= i.end %>" > <%= i.nume %> </label>
+        <button type="button" class="btn btn-info" data-toggle="popover" title="Info" data-content="<%= i.info %>">Info</button> <br>
+        <div>Numar locuri:<div id="choice<%= j %>"><%= i.nr %></div></div>
+        <br>
+        <% j++ %>
+<% }); %>
+
+<h2>Marti</h2>
+<% item2.forEach(function(i) { %>
+        <label class="checlbocx-inline" > <input type="checkbox" onclick="c(this);" value="1" data-start = "<%= i.ziua %>:<%= i.start %>" data-end="<%= i.ziua %>:<%= i.end %>" > <%= i.nume %> </label>
+        <button type="button" class="btn btn-info" data-toggle="popover" title="Info" data-content="<%= i.info %>">Info</button> <br>
+        <div>Numar locuri:<div id="choice<%= j %>"><%= i.nr %></div></div>
+        <br>
+        <% j++ %>
+<% }); %>
+
+<h2>Miercuri</h2>
+<% item3.forEach(function(i) { %>
+        <label class="checlbocx-inline" > <input type="checkbox" onclick="c(this);" value="1" data-start = "<%= i.ziua %>:<%= i.start %>" data-end="<%= i.ziua %>:<%= i.end %>" > <%= i.nume %> </label>
+        <button type="button" class="btn btn-info" data-toggle="popover" title="Info" data-content="<%= i.info %>">Info</button> <br>
+        <div>Numar locuri:<div id="choice<%= j %>"><%= i.nr %></div></div>
+        <br>
+        <% j++ %>
+<% }); %>
+
+<h2>Joi</h2>
+<% item4.forEach(function(i) { %>
+        <label class="checlbocx-inline" > <input type="checkbox" onclick="c(this);" value="1" data-start = "<%= i.ziua %>:<%= i.start %>" data-end="<%= i.ziua %>:<%= i.end %>" > <%= i.nume %> </label>
+        <button type="button" class="btn btn-info" data-toggle="popover" title="Info" data-content="<%= i.info %>">Info</button> <br>
+        <div>Numar locuri:<div id="choice<%= j %>"><%= i.nr %></div></div>
+        <br>
+        <% j++ %>
+<% }); %>
+
+<h2>Vineri</h2>
+<% item5.forEach(function(i) { %>
+        <label class="checlbocx-inline" > <input type="checkbox" onclick="c(this);" value="1" data-start = "<%= i.ziua %>:<%= i.start %>" data-end="<%= i.ziua %>:<%= i.end %>" > <%= i.nume %> </label>
+        <button type="button" class="btn btn-info" data-toggle="popover" title="Info" data-content="<%= i.info %>">Info</button> <br>
+        <div>Numar locuri:<div id="choice<%= j %>"><%= i.nr %></div></div>
+        <br>
+        <% j++ %>
+<% }); %>
+<br>
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
-
+<br>
 <div class="alert alert-info" id="msg">
-  <strong>Alege-ti activitatile !</strong> P.S. : Trebuie sa fie  
+  <strong>Alege-ti activitatile !</strong>
 </div>
 
 
@@ -190,6 +236,11 @@ function c(obj)
     }
   overlap(0);
 }
+
+$(function () {
+  $('[data-toggle="popover"]').popover();
+})
+
 
 </script>
 

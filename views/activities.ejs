@@ -11,9 +11,34 @@
 
 </head>
 <body>
-<h1>Lista cu activitati</h1>
+<h1>Lista cu activitati:</h1>
+<h2>Luni</h2>
 <ul class="list-group">
-    <% item.forEach(function(i) { %>
+    <% item1.forEach(function(i) { %>
+        <li class="list-group-item" ><%= i.nume %> <br> <%= i.start %> - <%= i.end %> <br> <%= i.info %> </li>
+    <% }); %>
+</ul>
+<h2>Marti</h2>
+<ul class="list-group">
+    <% item2.forEach(function(i) { %>
+        <li class="list-group-item" ><%= i.nume %> <br> <%= i.start %> - <%= i.end %> <br> <%= i.info %> </li>
+    <% }); %>
+</ul>
+<h2>Miercuri</h2>
+<ul class="list-group">
+    <% item3.forEach(function(i) { %>
+        <li class="list-group-item" ><%= i.nume %> <br> <%= i.start %> - <%= i.end %> <br> <%= i.info %> </li>
+    <% }); %>
+</ul>
+<h2>Joi</h2>
+<ul class="list-group">
+    <% item4.forEach(function(i) { %>
+        <li class="list-group-item" ><%= i.nume %> <br> <%= i.start %> - <%= i.end %> <br> <%= i.info %> </li>
+    <% }); %>
+</ul>
+<h2>Vineri</h2>
+<ul class="list-group">
+    <% item5.forEach(function(i) { %>
         <li class="list-group-item" ><%= i.nume %> <br> <%= i.start %> - <%= i.end %> <br> <%= i.info %> </li>
     <% }); %>
 </ul>
