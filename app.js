@@ -14,6 +14,10 @@ var activities = require('./routes/activities');
 
 var app = express();
 
+var jsonParser = bodyParser.json()
+ 
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 var db;
 
 MongoClient.connect('mongodb://a:a@ds035036.mlab.com:35036/scoala', (err, database) => {
@@ -47,16 +51,22 @@ app.use('/activities',activities);
 app.post('/add', (req, res) => {
   db.collection('entries').save(req.body, (err, result) => {
     if (err) return console.log(err);
-
     console.log('saved to database');
-    res.redirect('/');
+    console.log(req.body);
   })
+/*  for (var i in req.body.Table) {
+    db.collection('activities').update( {"nume":i} , 
+                                        { $inc: { "nr" : -1 } } );
+    console.log(i);
+} */
+  console.log (req.body['0'] );
+  res.redirect('/');
 })
 
 app.post('/addacti', (req, res) => {
   db.collection('activities').save(req.body, (err, result) => {
     if (err) return console.log(err);
-
+    console.log(req.body);
     console.log('saved to database');
     res.redirect('/activities');
   })
